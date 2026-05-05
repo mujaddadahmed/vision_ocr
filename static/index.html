@@ -1202,6 +1202,24 @@ function handleFileSelect(e) {
   e.target.value = '';
 }
 
+// ── Client-side image compression ────────────────────────────────────────────
+async function compressImage(file, maxPx = 1024, quality = 0.82) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const scale = Math.min(1, maxPx / Math.max(img.width, img.height));
+      const canvas = document.createElement('canvas');
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      canvas.toBlob(resolve, 'image/jpeg', quality);
+    };
+    img.src = url;
+  });
+}
+
 async function processImageFile(file) {
   closeUploadOverlay();
 
@@ -1218,8 +1236,9 @@ async function processImageFile(file) {
   document.getElementById('processing-overlay').classList.add('visible');
 
   try {
+    const compressed = await compressImage(file);
     const formData = new FormData();
-    formData.append('file', file);
+    formData.append('file', compressed, file.name);
 
     const res = await fetch('/api/extract-code', {
       method: 'POST',

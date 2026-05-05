@@ -1,0 +1,199 @@
+2026-05-06 03:35:44  CRITICAL  vision_code — Startup — GROQ_API_KEY is NOT set! /api/extract-code will fail.
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_part_begin with no data
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_field with data[42:61]
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_value with data[63:126]
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_end with no data
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_field with data[128:140]
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_value with data[142:152]
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_header_end with no data
+2026-05-06 03:36:02  DEBUG     multipart.multipart — Calling on_headers_finished with no data
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[156:32768]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:155682]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[155683:203765]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[203766:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:177387]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[177388:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:4846]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[4847:164353]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[164354:176281]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[176282:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:9781]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[9782:32108]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[32109:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1937]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[1938:114319]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[114320:170635]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[170636:222755]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[222756:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:150723]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[150724:175116]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[175117:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:199549]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[199550:225842]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[225843:236879]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[236880:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:150971]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[150972:160669]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[160670:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:48939]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[48940:86675]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[86676:229874]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[229875:262141]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[262142:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:92922]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[92923:259189]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[259190:262144]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:29696]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[29697:37995]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[37996:133880]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[133881:144452]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_data with data[144453:184543]
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_part_end with no data
+2026-05-06 03:36:03  DEBUG     multipart.multipart — Calling on_end with no data
+2026-05-06 03:36:03  INFO      vision_code — [req-1778020563230] ── /api/extract-code called ──────────────────────
+2026-05-06 03:36:03  ERROR     vision_code — [req-1778020563230] GROQ_API_KEY is not set in environment variables
+2026-05-06 03:36:27  INFO      vision_code — Startup — GROQ_API_KEY loaded (prefix: gsk_cx***)
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_begin with no data
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_field with data[42:61]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_value with data[63:126]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_end with no data
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_field with data[128:140]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_value with data[142:152]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_header_end with no data
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_headers_finished with no data
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[156:81920]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:140773]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[140774:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:10949]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[10950:234083]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[234084:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:27090]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[27091:169725]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[169726:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:244460]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[244461:257055]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[257056:260426]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[260427:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:86135]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[86136:114362]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[114363:208262]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[208263:232462]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[232463:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:239931]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[239932:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:238751]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[238752:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:191495]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[191496:217447]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[217448:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:98808]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[98809:262144]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:14284]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[14285:74973]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[0:1]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_data with data[74974:135391]
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_part_end with no data
+2026-05-06 03:36:40  DEBUG     multipart.multipart — Calling on_end with no data
+2026-05-06 03:36:40  INFO      vision_code — [req-1778020600794] ── /api/extract-code called ──────────────────────
+2026-05-06 03:36:40  DEBUG     vision_code — [req-1778020600794] API key present — prefix: gsk_cx***sSq
+2026-05-06 03:36:40  INFO      vision_code — [req-1778020600794] File received — name: 'IMG_20260421_234025.jpg.jpeg', content-type: 'image/jpeg', size: 3028.1 KB
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (544) - type: long (4) - value: b'\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (545) - type: long (4) - value: b'\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (546) - type: long (4) - value: b'\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (547) - type: long (4) - value: b'\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (548) - type: long (4) - value: b'\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: unknown (549) - type: string (2) Tag Location: 82 - Data Location: 218 - value: b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: ResolutionUnit (296) - type: short (3) - value: b'\x02\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: ImageDescription (270) - type: string (2) Tag Location: 106 - Data Location: 250 - value: b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: Make (271) - type: string (2) Tag Location: 118 - Data Location: 282 - value: b'Xiaomi\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: Model (272) - type: string (2) Tag Location: 130 - Data Location: 289 - value: b'220233L2G\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: Software (305) - type: string (2) Tag Location: 142 - Data Location: 299 - value: b'MediaTek Camera Application\x00\x00\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: Orientation (274) - type: short (3) - value: b'\x01\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: DateTime (306) - type: string (2) Tag Location: 166 - Data Location: 331 - value: b'2026:04:21 23:40:24\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: YCbCrPositioning (531) - type: short (3) - value: b'\x02\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: ExifIFD (34665) - type: long (4) - value: b'o\x01\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: XResolution (282) - type: rational (5) Tag Location: 202 - Data Location: 351 - value: b'H\x00\x00\x00\x01\x00\x00\x00'
+2026-05-06 03:36:40  DEBUG     PIL.TiffImagePlugin — tag: YResolution (283) - type: rational (5) Tag Location: 214 - Data Location: 359 - value: b'H\x00\x00\x00\x01\x00\x00\x00'
+2026-05-06 03:36:41  DEBUG     vision_code — [req-1778020600794] Resized image to (1024, 768)
+2026-05-06 03:36:41  DEBUG     vision_code — [req-1778020600794] Image after resize — size: 105.3 KB
+2026-05-06 03:36:41  DEBUG     vision_code — [req-1778020600794] Base64 encoded — length: 143712 chars
+2026-05-06 03:36:41  DEBUG     vision_code — [req-1778020600794] Payload built — model: 'meta-llama/llama-4-scout-17b-16e-instruct', max_tokens: 2048, temperature: 0
+2026-05-06 03:36:41  INFO      vision_code — [req-1778020600794] Sending POST → https://api.groq.com/openai/v1/chat/completions
+2026-05-06 03:36:41  DEBUG     httpx — load_ssl_context verify=True cert=None trust_env=True http2=False
+2026-05-06 03:36:41  DEBUG     httpx — load_verify_locations cafile='C:\\Users\\mg\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\certifi\\cacert.pem'
+2026-05-06 03:36:42  DEBUG     httpcore.connection — connect_tcp.started host='api.groq.com' port=443 local_address=None timeout=60.0 socket_options=None
+2026-05-06 03:36:42  DEBUG     httpcore.connection — connect_tcp.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001DD9E0E3790>
+2026-05-06 03:36:42  DEBUG     httpcore.connection — start_tls.started ssl_context=<ssl.SSLContext object at 0x000001DD9DD3D7F0> server_hostname='api.groq.com' timeout=60.0
+2026-05-06 03:36:42  DEBUG     httpcore.connection — start_tls.complete return_value=<httpcore._backends.anyio.AnyIOStream object at 0x000001DD9DD1D7D0>
+2026-05-06 03:36:42  DEBUG     httpcore.http11 — send_request_headers.started request=<Request [b'POST']>
+2026-05-06 03:36:42  DEBUG     httpcore.http11 — send_request_headers.complete
+2026-05-06 03:36:42  DEBUG     httpcore.http11 — send_request_body.started request=<Request [b'POST']>
+2026-05-06 03:36:42  DEBUG     httpcore.http11 — send_request_body.complete
+2026-05-06 03:36:42  DEBUG     httpcore.http11 — receive_response_headers.started request=<Request [b'POST']>
+2026-05-06 03:36:49  DEBUG     httpcore.http11 — receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Date', b'Tue, 05 May 2026 22:36:49 GMT'), (b'Content-Type', b'application/json'), (b'Transfer-Encoding', b'chunked'), (b'Connection', b'keep-alive'), (b'Cache-Control', b'private, max-age=0, no-store, no-cache, must-revalidate'), (b'Server', b'cloudflare'), (b'vary', b'Origin'), (b'x-groq-region', b'dmm'), (b'x-ratelimit-limit-requests', b'1000'), (b'x-ratelimit-limit-tokens', b'30000'), (b'x-ratelimit-remaining-requests', b'999'), (b'x-ratelimit-remaining-tokens', b'25480'), (b'x-ratelimit-reset-requests', b'1m26.4s'), (b'x-ratelimit-reset-tokens', b'9.04s'), (b'x-request-id', b'req_01kqx4jv65fkg9s7dk54h4hgn6'), (b'via', b'1.1 google'), (b'cf-cache-status', b'DYNAMIC'), (b'set-cookie', b'__cf_bm=C2ei0U6r_.pRH0Yt7C6IxJrcxZWZuxiEDS9Bx6xNOgc-1778020602.4429812-1.0.1.1-kw7dQzcdvLydMQahzm.kCRPkfQtkOceeABb3hgEOLIaxid.G.BDbcnrPcKYNWalgrIlSsrLl.94LHGf5vBILu5_1jQ4LjSKPnlIvzHsx3qvkxP9yEjeN0yW63AoJZYEK; HttpOnly; Secure; Path=/; Domain=groq.com; Expires=Tue, 05 May 2026 23:06:49 GMT'), (b'Strict-Transport-Security', b'max-age=15552000'), (b'Content-Encoding', b'gzip'), (b'CF-RAY', b'9f7339bd4aab2097-KHI'), (b'alt-svc', b'h3=":443"; ma=86400')])
+2026-05-06 03:36:49  INFO      httpx — HTTP Request: POST https://api.groq.com/openai/v1/chat/completions "HTTP/1.1 200 OK"
+2026-05-06 03:36:49  DEBUG     httpcore.http11 — receive_response_body.started request=<Request [b'POST']>
+2026-05-06 03:36:49  DEBUG     httpcore.http11 — receive_response_body.complete
+2026-05-06 03:36:49  DEBUG     httpcore.http11 — response_closed.started
+2026-05-06 03:36:49  DEBUG     httpcore.http11 — response_closed.complete
+2026-05-06 03:36:49  DEBUG     httpcore.connection — close.started
+2026-05-06 03:36:49  DEBUG     httpcore.connection — close.complete
+2026-05-06 03:36:49  INFO      vision_code — [req-1778020600794] Response received — HTTP 200 in 8031 ms
+2026-05-06 03:36:49  DEBUG     vision_code — [req-1778020600794] Response headers: {'date': 'Tue, 05 May 2026 22:36:49 GMT', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'connection': 'keep-alive', 'cache-control': 'private, max-age=0, no-store, no-cache, must-revalidate', 'server': 'cloudflare', 'vary': 'Origin', 'x-groq-region': 'dmm', 'x-ratelimit-limit-requests': '1000', 'x-ratelimit-limit-tokens': '30000', 'x-ratelimit-remaining-requests': '999', 'x-ratelimit-remaining-tokens': '25480', 'x-ratelimit-reset-requests': '1m26.4s', 'x-ratelimit-reset-tokens': '9.04s', 'x-request-id': 'req_01kqx4jv65fkg9s7dk54h4hgn6', 'via': '1.1 google', 'cf-cache-status': 'DYNAMIC', 'set-cookie': '__cf_bm=C2ei0U6r_.pRH0Yt7C6IxJrcxZWZuxiEDS9Bx6xNOgc-1778020602.4429812-1.0.1.1-kw7dQzcdvLydMQahzm.kCRPkfQtkOceeABb3hgEOLIaxid.G.BDbcnrPcKYNWalgrIlSsrLl.94LHGf5vBILu5_1jQ4LjSKPnlIvzHsx3qvkxP9yEjeN0yW63AoJZYEK; HttpOnly; Secure; Path=/; Domain=groq.com; Expires=Tue, 05 May 2026 23:06:49 GMT', 'strict-transport-security': 'max-age=15552000', 'content-encoding': 'gzip', 'cf-ray': '9f7339bd4aab2097-KHI', 'alt-svc': 'h3=":443"; ma=86400'}
+2026-05-06 03:36:49  DEBUG     vision_code — [req-1778020600794] Parsed response JSON — keys: ['id', 'object', 'created', 'model', 'choices', 'usage', 'usage_breakdown', 'system_fingerprint', 'x_groq', 'service_tier']
+2026-05-06 03:36:49  INFO      vision_code — [req-1778020600794] Choice[0] finish_reason: 'stop'
+2026-05-06 03:36:49  INFO      vision_code — [req-1778020600794] Raw content length: 146 chars
+2026-05-06 03:36:49  DEBUG     vision_code — [req-1778020600794] Raw content preview: '```\nchar * left (const char * target, const int lent)\n\n{\nchar * p = new char[30];\nfor (int i=0 ; i< 30 ; i++)\n    p[i]= target[i];\nreturn p;\n}\n```'
+2026-05-06 03:36:49  DEBUG     vision_code — [req-1778020600794] Stripping markdown code fences from response
+2026-05-06 03:36:49  INFO      vision_code — [req-1778020600794] ✓ Code extracted successfully — 138 chars, 8 lines
+2026-05-06 03:36:49  INFO      vision_code — [req-1778020600794] Token usage — prompt: 1959, completion: 51, total: 2010
