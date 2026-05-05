@@ -2,6 +2,9 @@ import io
 import os
 import base64
 import httpx
+import logging
+import sys
+import time
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from PIL import Image
 from fastapi.staticfiles import StaticFiles
@@ -9,6 +12,18 @@ from fastapi.responses import HTMLResponse, FileResponse
 from pydantic import BaseModel
 from typing import Optional
 import json
+
+# ── Logging Setup ─────────────────────────────────────────────────────────────
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s  %(levelname)-8s  %(name)s — %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S",
+    handlers=[
+        logging.StreamHandler(sys.stdout),          # terminal
+        logging.FileHandler("vision_code.log", encoding="utf-8"),  # file
+    ]
+)
+logger = logging.getLogger("vision_code")
 
 app = FastAPI(title="Vision-Code Practice")
 
@@ -312,19 +327,29 @@ async def get_question(question_id: int):
 
 @app.post("/api/extract-code")
 async def extract_code(file: UploadFile = File(...)):
+    request_id = f"req-{int(time.time()*1000)}"
+    logger.info(f"[{request_id}] ── /api/extract-code called ──────────────────────")
+
     # ── API key check ──────────────────────────────────────────────────────────
     api_key = os.environ.get("GROQ_API_KEY", "")
     if not api_key:
+        logger.error(f"[{request_id}] GROQ_API_KEY is not set in environment variables")
         raise HTTPException(status_code=500, detail="Service configuration error")
+    logger.debug(f"[{request_id}] API key present — prefix: {api_key[:6]}***{api_key[-3:]}")
 
     # ── File validation ────────────────────────────────────────────────────────
     contents = await file.read()
+    file_size_kb = len(contents) / 1024
+    logger.info(f"[{request_id}] File received — name: '{file.filename}', "
+                f"content-type: '{file.content_type}', size: {file_size_kb:.1f} KB")
 
     if len(contents) > 10 * 1024 * 1024:
+        logger.warning(f"[{request_id}] File too large ({file_size_kb:.0f} KB) — rejected")
         raise HTTPException(status_code=400, detail="Image too large. Please use an image under 10MB.")
 
     mime = file.content_type or "image/jpeg"
     if mime not in ("image/jpeg", "image/png", "image/webp", "image/gif"):
+        logger.warning(f"[{request_id}] Unrecognised mime type '{mime}' — falling back to image/jpeg")
         mime = "image/jpeg"
 
     # ── Resize image to keep payload small (max 1024px on longest side) ────────
@@ -333,15 +358,17 @@ async def extract_code(file: UploadFile = File(...)):
         img = Image.open(io.BytesIO(contents))
         if max(img.size) > MAX_PX:
             img.thumbnail((MAX_PX, MAX_PX), Image.LANCZOS)
+            logger.debug(f"[{request_id}] Resized image to {img.size}")
         buf = io.BytesIO()
         img.convert("RGB").save(buf, format="JPEG", quality=85)
-        buf.seek(0)
         contents = buf.getvalue()
         mime = "image/jpeg"
-    except Exception:
-        pass
+        logger.debug(f"[{request_id}] Image after resize — size: {len(contents)/1024:.1f} KB")
+    except Exception as img_err:
+        logger.warning(f"[{request_id}] Could not resize image ({img_err}), sending as-is")
 
     b64_image = base64.b64encode(contents).decode("utf-8")
+    logger.debug(f"[{request_id}] Base64 encoded — length: {len(b64_image)} chars")
 
     # ── Build payload ──────────────────────────────────────────────────────────
     payload = {
@@ -371,9 +398,13 @@ async def extract_code(file: UploadFile = File(...)):
         "max_tokens": 2048,
         "temperature": 0
     }
+    logger.debug(f"[{request_id}] Payload built — model: '{payload['model']}', "
+                 f"max_tokens: {payload['max_tokens']}, temperature: {payload['temperature']}")
 
     # ── HTTP request ───────────────────────────────────────────────────────────
     target_url = "https://api.groq.com/openai/v1/chat/completions"
+    logger.info(f"[{request_id}] Sending POST → {target_url}")
+    t_start = time.monotonic()
 
     try:
         async with httpx.AsyncClient(timeout=60.0) as client:
@@ -386,50 +417,102 @@ async def extract_code(file: UploadFile = File(...)):
                 json=payload
             )
 
+        elapsed_ms = (time.monotonic() - t_start) * 1000
+        logger.info(f"[{request_id}] Response received — HTTP {response.status_code} in {elapsed_ms:.0f} ms")
+        logger.debug(f"[{request_id}] Response headers: {dict(response.headers)}")
+
         # ── Non-200 handling ───────────────────────────────────────────────────
         if response.status_code != 200:
+            raw_body = response.text
+            logger.error(f"[{request_id}] Non-200 status {response.status_code}. "
+                         f"Response body: {raw_body[:500]}")
             raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
 
         # ── Parse response ─────────────────────────────────────────────────────
         try:
             data = response.json()
-        except Exception:
+        except Exception as parse_err:
+            logger.error(f"[{request_id}] Failed to parse JSON response: {parse_err}. "
+                         f"Raw body: {response.text[:300]}")
             raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
+
+        logger.debug(f"[{request_id}] Parsed response JSON — keys: {list(data.keys())}")
 
         # ── Validate response structure ────────────────────────────────────────
         if "error" in data:
+            err = data["error"]
+            logger.error(f"[{request_id}] API returned error object — "
+                         f"code: {err.get('code')}, message: {err.get('message')}, "
+                         f"type: {err.get('type')}")
             raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
 
         if not data.get("choices"):
+            logger.error(f"[{request_id}] Response has no 'choices'. Full response: {json.dumps(data)[:400]}")
             raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
 
         choice = data["choices"][0]
+        finish_reason = choice.get("finish_reason")
+        logger.info(f"[{request_id}] Choice[0] finish_reason: '{finish_reason}'")
+
+        if finish_reason not in ("stop", None):
+            logger.warning(f"[{request_id}] Unexpected finish_reason: '{finish_reason}'")
+
         raw_code = choice.get("message", {}).get("content", "")
+        logger.info(f"[{request_id}] Raw content length: {len(raw_code)} chars")
+        logger.debug(f"[{request_id}] Raw content preview: {repr(raw_code[:200])}")
 
         # ── Strip markdown fences if model added them ──────────────────────────
         code = raw_code.strip()
         if code.startswith("```"):
+            logger.debug(f"[{request_id}] Stripping markdown code fences from response")
             lines = code.split("\n")
             lines = [l for l in lines if not l.strip().startswith("```")]
             code = "\n".join(lines)
+
+        if not code.strip():
+            logger.warning(f"[{request_id}] Extracted code is empty after stripping")
+        else:
+            logger.info(f"[{request_id}] ✓ Code extracted successfully — {len(code)} chars, "
+                        f"{code.count(chr(10))+1} lines")
+
+        # ── Usage stats ────────────────────────────────────────────────────────
+        usage = data.get("usage", {})
+        if usage:
+            logger.info(f"[{request_id}] Token usage — prompt: {usage.get('prompt_tokens')}, "
+                        f"completion: {usage.get('completion_tokens')}, "
+                        f"total: {usage.get('total_tokens')}")
 
         return {"code": code}
 
     except HTTPException:
         raise  # re-raise our own HTTPExceptions unchanged
 
-    except httpx.TimeoutException:
+    except httpx.TimeoutException as te:
+        elapsed_ms = (time.monotonic() - t_start) * 1000
+        logger.error(f"[{request_id}] Request timed out after {elapsed_ms:.0f} ms — {te}")
         raise HTTPException(status_code=504, detail="Request timed out. Please try again.")
 
-    except httpx.ConnectError:
+    except httpx.ConnectError as ce:
+        logger.error(f"[{request_id}] Connection error — could not reach API endpoint: {ce}")
         raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
 
-    except httpx.HTTPStatusError:
+    except httpx.HTTPStatusError as se:
+        logger.error(f"[{request_id}] HTTP status error: {se}")
         raise HTTPException(status_code=502, detail="Could not process the image. Please try again.")
 
-    except Exception:
+    except Exception as e:
+        logger.exception(f"[{request_id}] Unexpected exception in extract_code: {type(e).__name__}: {e}")
         raise HTTPException(status_code=500, detail="An error occurred processing your image.")
 
+
+# ── Startup Event ────────────────────────────────────────────────────────────
+@app.on_event("startup")
+async def on_startup():
+    key = os.environ.get("GROQ_API_KEY", "")
+    if key:
+        logger.info(f"Startup — GROQ_API_KEY loaded (prefix: {key[:6]}***)")
+    else:
+        logger.critical("Startup — GROQ_API_KEY is NOT set! /api/extract-code will fail.")
 
 # ── Static Files & SPA ────────────────────────────────────────────────────────
 
