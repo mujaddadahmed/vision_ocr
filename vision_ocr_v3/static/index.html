@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vision-Code · Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Reset & Base ─────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --brand: #5B5FEF;
+      --brand-light: #7B7FF5;
+      --brand-dark: #4347CC;
+      --brand-glow: rgba(91,95,239,.18);
+      --surface: #0f1117;
+      --surface-1: #161b27;
+      --surface-2: #1e2535;
+      --surface-3: #252d40;
+      --border: #2a3148;
+      --text: #e8ecf4;
+      --text-2: #8b96b0;
+      --text-3: #5c6680;
+      --easy: #22c55e;
+      --medium: #f59e0b;
+      --hard: #ef4444;
+      --green: #22c55e;
+      --editor-bg: #0d1117;
+      --scrollbar: #2a3148;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--surface);
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 14px;
+      overflow: hidden;
+    }
+
+    /* ── Scrollbar ────────────────────────────────────────────── */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--scrollbar); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--brand); }
+
+    /* ── Topbar ───────────────────────────────────────────────── */
+    #topbar {
+      height: 52px;
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 20px;
+      gap: 16px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 100;
+    }
+
+    #topbar .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--brand);
+      font-weight: 700;
+      font-size: 17px;
+      letter-spacing: -0.3px;
+    }
+
+    #topbar .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, var(--brand) 0%, #8b5cf6 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 600;
+    }
+
+    #topbar .nav-tabs {
+      display: flex;
+      gap: 2px;
+      margin-left: 8px;
+    }
+
+    #topbar .nav-tab {
+      padding: 6px 14px;
+      border-radius: 6px;
+      color: var(--text-2);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .15s;
+      border: none;
+      background: transparent;
+    }
+
+    #topbar .nav-tab:hover { color: var(--text); background: var(--surface-2); }
+    #topbar .nav-tab.active { color: var(--brand-light); background: var(--brand-glow); }
+
+    #topbar .spacer { flex: 1; }
+
+    #topbar .run-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      background: var(--surface-2);
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    #topbar .run-btn:hover { color: var(--text); border-color: var(--text-3); }
+
+    #topbar .submit-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 18px;
+      background: var(--brand);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all .15s;
+    }
+
+    #topbar .submit-btn:hover { background: var(--brand-light); }
+
+    /* ── Layout ───────────────────────────────────────────────── */
+    #layout {
+      display: flex;
+      height: calc(100vh - 52px);
+      overflow: hidden;
+    }
+
+    /* ── Problem List Panel ───────────────────────────────────── */
+    #problem-list-panel {
+      width: 280px;
+      min-width: 220px;
+      flex-shrink: 0;
+      background: var(--surface-1);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #problem-list-panel .panel-header {
+      padding: 14px 16px 10px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #problem-list-panel .panel-header h3 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-2);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 6px 10px;
+    }
+
+    .search-bar input {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      width: 100%;
+    }
+
+    .search-bar input::placeholder { color: var(--text-3); }
+
+    .filter-row {
+      display: flex;
+      gap: 6px;
+    }
+
+    .filter-chip {
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-3);
+      cursor: pointer;
+      transition: all .15s;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .filter-chip:hover { border-color: var(--text-3); color: var(--text-2); }
+    .filter-chip.active-easy { border-color: var(--easy); color: var(--easy); background: rgba(34,197,94,.08); }
+    .filter-chip.active-medium { border-color: var(--medium); color: var(--medium); background: rgba(245,158,11,.08); }
+    .filter-chip.active-hard { border-color: var(--hard); color: var(--hard); background: rgba(239,68,68,.08); }
+
+    #problem-list-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0;
+    }
+
+    .problem-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 16px;
+      cursor: pointer;
+      transition: background .12s;
+      border-left: 3px solid transparent;
+    }
+
+    .problem-item:hover { background: var(--surface-2); }
+
+    .problem-item.active {
+      background: var(--brand-glow);
+      border-left-color: var(--brand);
+    }
+
+    .problem-num {
+      font-size: 11px;
+      color: var(--text-3);
+      font-family: 'JetBrains Mono', monospace;
+      min-width: 22px;
+    }
+
+    .problem-title {
+      flex: 1;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .difficulty-badge {
+      font-size: 10px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 4px;
+      flex-shrink: 0;
+    }
+
+    .difficulty-badge.Easy { color: var(--easy); background: rgba(34,197,94,.12); }
+    .difficulty-badge.Medium { color: var(--medium); background: rgba(245,158,11,.12); }
+    .difficulty-badge.Hard { color: var(--hard); background: rgba(239,68,68,.12); }
+
+    /* ── Center Panel (Problem Description) ──────────────────── */
+    #center-panel {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-right: 1px solid var(--border);
+    }
+
+    .panel-tabs {
+      height: 40px;
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: flex-end;
+      padding: 0 16px;
+      gap: 2px;
+      flex-shrink: 0;
+    }
+
+    .panel-tab {
+      padding: 8px 14px;
+      font-size: 12.5px;
+      font-weight: 500;
+      color: var(--text-3);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all .12s;
+    }
+
+    .panel-tab:hover { color: var(--text-2); }
+    .panel-tab.active { color: var(--text); border-bottom-color: var(--brand); }
+
+    #problem-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 24px 28px;
+    }
+
+    #problem-content .q-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+
+    .meta-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .meta-difficulty {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 20px;
+    }
+
+    .meta-difficulty.Easy { color: var(--easy); background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.2); }
+    .meta-difficulty.Medium { color: var(--medium); background: rgba(245,158,11,.12); border: 1px solid rgba(245,158,11,.2); }
+    .meta-difficulty.Hard { color: var(--hard); background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.2); }
+
+    .meta-tag {
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--surface-2);
+      color: var(--text-3);
+      border: 1px solid var(--border);
+    }
+
+    .meta-acceptance {
+      font-size: 12px;
+      color: var(--text-3);
+      margin-left: auto;
+    }
+
+    #problem-content .description {
+      color: var(--text);
+      line-height: 1.75;
+      font-size: 13.5px;
+      margin-bottom: 20px;
+    }
+
+    #problem-content .description code {
+      background: var(--surface-2);
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12.5px;
+      color: var(--brand-light);
+    }
+
+    .example-block {
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .example-block .ex-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--brand-light);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+
+    .example-block pre {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text);
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .example-block .ex-key {
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    .constraints-section h4 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .constraints-section ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .constraints-section li {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      padding-left: 16px;
+      position: relative;
+    }
+
+    .constraints-section li::before {
+      content: '·';
+      position: absolute;
+      left: 4px;
+      color: var(--brand);
+    }
+
+    /* ── Right Panel (Editor) ─────────────────────────────────── */
+    #editor-panel {
+      width: 45%;
+      min-width: 320px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      background: var(--editor-bg);
+    }
+
+    .editor-toolbar {
+      height: 40px;
+      background: var(--surface-1);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .lang-selector {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      color: var(--text-2);
+      position: relative;
+    }
+
+    .lang-selector select {
+      background: none;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      font-size: 12px;
+      cursor: pointer;
+      appearance: none;
+      padding-right: 14px;
+    }
+
+    .lang-selector .arrow {
+      position: absolute;
+      right: 8px;
+      font-size: 10px;
+      color: var(--text-3);
+      pointer-events: none;
+    }
+
+    .editor-toolbar .spacer { flex: 1; }
+
+    /* ── Photo Upload Button ──────────────────────────────────── */
+    .upload-btn {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 14px;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all .15s;
+      white-space: nowrap;
+    }
+
+    .upload-btn:hover { opacity: .9; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(79,70,229,.4); }
+    .upload-btn:active { transform: translateY(0); }
+
+    .upload-btn svg { flex-shrink: 0; }
+
+    .clear-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 10px;
+      background: var(--surface-2);
+      color: var(--text-3);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all .12s;
+    }
+
+    .clear-btn:hover { color: var(--text-2); border-color: var(--text-3); }
+
+    /* ── Code Editor ──────────────────────────────────────────── */
+    #editor-wrapper {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #line-numbers {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 44px;
+      background: var(--editor-bg);
+      padding: 14px 0;
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--text-3);
+      user-select: none;
+      border-right: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    #line-numbers span {
+      display: block;
+      padding-right: 10px;
+    }
+
+    #code-editor {
+      position: absolute;
+      left: 44px;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--editor-bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.65;
+      padding: 14px 16px;
+      border: none;
+      outline: none;
+      resize: none;
+      tab-size: 4;
+      caret-color: var(--brand-light);
+      spellcheck: false;
+    }
+
+    #code-editor::selection { background: rgba(91,95,239,.3); }
+
+    /* ── Upload Overlay ───────────────────────────────────────── */
+    #upload-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(15,17,23,.92);
+      backdrop-filter: blur(4px);
+      z-index: 50;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    #upload-overlay.visible { display: flex; }
+
+    #upload-drop-zone {
+      width: 340px;
+      border: 2px dashed var(--brand);
+      border-radius: 16px;
+      padding: 40px 28px;
+      text-align: center;
+      background: var(--surface-1);
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+    }
+
+    #upload-drop-zone:hover, #upload-drop-zone.drag-over {
+      border-color: var(--brand-light);
+      background: var(--brand-glow);
+    }
+
+    #upload-drop-zone .drop-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    #upload-drop-zone h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    #upload-drop-zone p {
+      font-size: 12px;
+      color: var(--text-3);
+      line-height: 1.5;
+    }
+
+    #upload-drop-zone .browse-link {
+      color: var(--brand-light);
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    #file-input { display: none; }
+
+    .overlay-close {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: var(--surface-2);
+      color: var(--text-2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 12px;
+      font-family: 'Sora', sans-serif;
+      cursor: pointer;
+      transition: all .12s;
+    }
+
+    .overlay-close:hover { color: var(--text); border-color: var(--text-3); }
+
+    /* ── Processing spinner ───────────────────────────────────── */
+    #processing-overlay {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(15,17,23,.88);
+      backdrop-filter: blur(4px);
+      z-index: 60;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+    }
+
+    #processing-overlay.visible { display: flex; }
+
+    .spinner {
+      width: 44px;
+      height: 44px;
+      border: 3px solid var(--surface-3);
+      border-top-color: var(--brand);
+      border-radius: 50%;
+      animation: spin .7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    #processing-overlay .proc-text {
+      font-size: 13px;
+      color: var(--text-2);
+      font-weight: 500;
+    }
+
+    #processing-overlay .proc-sub {
+      font-size: 11px;
+      color: var(--text-3);
+    }
+
+    /* ── Toast notifications ──────────────────────────────────── */
+    #toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .toast {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      max-width: 340px;
+      animation: toastIn .25s ease forwards;
+      box-shadow: 0 8px 24px rgba(0,0,0,.4);
+    }
+
+    .toast.success { background: #0f2b1a; border: 1px solid rgba(34,197,94,.3); color: #86efac; }
+    .toast.error { background: #2b0f0f; border: 1px solid rgba(239,68,68,.3); color: #fca5a5; }
+    .toast.info { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-2); }
+
+    @keyframes toastIn { from { opacity:0; transform: translateY(10px) scale(.97); } to { opacity:1; transform: none; } }
+
+    /* ── Bottom Console ───────────────────────────────────────── */
+    #console-panel {
+      height: 120px;
+      background: var(--surface-1);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+
+    #console-panel .console-header {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 10px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    #console-panel .console-header span {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #console-output {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-2);
+      line-height: 1.5;
+    }
+
+    #console-output .out-success { color: var(--green); }
+    #console-output .out-error { color: var(--hard); }
+    #console-output .out-info { color: var(--brand-light); }
+
+    /* ── Preview image thumb ──────────────────────────────────── */
+    #image-preview-bar {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      background: var(--surface-2);
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    #image-preview-bar.visible { display: flex; }
+
+    #image-preview-bar img {
+      height: 38px;
+      width: auto;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      object-fit: cover;
+    }
+
+    #image-preview-bar .preview-info {
+      flex: 1;
+      font-size: 11.5px;
+      color: var(--text-3);
+    }
+
+    #image-preview-bar .preview-info strong { color: var(--text-2); }
+
+    .img-remove-btn {
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--surface-3);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text-3);
+      cursor: pointer;
+      font-size: 11px;
+      transition: all .12s;
+    }
+
+    .img-remove-btn:hover { background: rgba(239,68,68,.12); border-color: var(--hard); color: var(--hard); }
+
+    /* ── Empty state ──────────────────────────────────────────── */
+    #empty-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 10px;
+      color: var(--text-3);
+      text-align: center;
+      padding: 20px;
+    }
+
+    #empty-state .empty-icon { font-size: 36px; opacity: 0.4; }
+    #empty-state p { font-size: 13px; line-height: 1.6; }
+
+    /* ── Animated reveal ──────────────────────────────────────── */
+    .reveal { animation: revealUp .3s ease forwards; }
+    @keyframes revealUp { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: none; } }
+
+    /* ── Resizer ──────────────────────────────────────────────── */
+    .resizer {
+      width: 5px;
+      background: var(--border);
+      cursor: col-resize;
+      flex-shrink: 0;
+      transition: background .15s;
+    }
+
+    .resizer:hover, .resizer.dragging { background: var(--brand); }
+  </style>
+</head>
+<body>
+
+<!-- ── Topbar ─────────────────────────────────────────────────────────────── -->
+<div id="topbar">
+  <a href="/" class="logo">
+    <div class="logo-icon">&lt;/&gt;</div>
+    Vision-Code
+  </a>
+  <div class="nav-tabs">
+    <button class="nav-tab" onclick="location.href='/'">Dashboard</button>
+    <button class="nav-tab active">Practice</button>
+    <button class="nav-tab">Leaderboard</button>
+  </div>
+  <div class="spacer"></div>
+  <button class="run-btn" onclick="handleRun()">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><polygon points="3,1 13,7 3,13" fill="currentColor"/></svg>
+    Run
+  </button>
+  <button class="submit-btn" onclick="handleSubmit()">
+    <svg width="13" height="13" viewBox="0 0 14 14" fill="none"><path d="M2 7l4 4 6-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Submit
+  </button>
+</div>
+
+<!-- ── Main Layout ─────────────────────────────────────────────────────────── -->
+<div id="layout">
+
+  <!-- Problem List -->
+  <div id="problem-list-panel">
+    <div class="panel-header">
+      <h3>Problems</h3>
+      <div class="search-bar">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="#5c6680" stroke-width="1.5"/><path d="M10.5 10.5L14 14" stroke="#5c6680" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input type="text" id="search-input" placeholder="Search problems..." oninput="filterProblems()" />
+      </div>
+      <div class="filter-row">
+        <button class="filter-chip" id="chip-all" onclick="setFilter('all')" style="border-color: var(--brand); color: var(--brand-light); background: var(--brand-glow);">All</button>
+        <button class="filter-chip" id="chip-Easy" onclick="setFilter('Easy')">Easy</button>
+        <button class="filter-chip" id="chip-Medium" onclick="setFilter('Medium')">Med</button>
+        <button class="filter-chip" id="chip-Hard" onclick="setFilter('Hard')">Hard</button>
+      </div>
+    </div>
+    <div id="problem-list-scroll"></div>
+  </div>
+
+  <!-- Center: Problem Description -->
+  <div id="center-panel">
+    <div class="panel-tabs">
+      <div class="panel-tab active">Description</div>
+      <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Solutions</div>
+      <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Submissions</div>
+    </div>
+    <div id="problem-content">
+      <div id="empty-state">
+        <div class="empty-icon">🧩</div>
+        <p>Select a problem from the<br/>list to get started</p>
+      </div>
+      <div id="question-display" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- Resizer -->
+  <div class="resizer" id="resizer"></div>
+
+  <!-- Editor Panel -->
+  <div id="editor-panel">
+    <div class="editor-toolbar">
+      <div class="lang-selector">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 4l-3 4 3 4M12 4l3 4-3 4M9 2l-2 12" stroke="#8b96b0" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <select id="lang-select" onchange="changeLang()">
+          <option value="python">Python</option>
+          <option value="javascript">JavaScript</option>
+          <option value="java">Java</option>
+          <option value="cpp">C++</option>
+        </select>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="spacer"></div>
+      <button class="clear-btn" onclick="clearEditor()" title="Clear editor">
+        <svg width="11" height="11" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+        Clear
+      </button>
+      <button class="upload-btn" onclick="openUploadOverlay()">
+        <svg width="13" height="13" viewBox="0 0 16 16" fill="none">
+          <rect x="2" y="2" width="12" height="10" rx="2" stroke="white" stroke-width="1.4"/>
+          <circle cx="5.5" cy="5.5" r="1.2" stroke="white" stroke-width="1.2"/>
+          <path d="M2 11l3.5-3.5 2.5 2.5 2-2 3 3" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M11 14v-3M9.5 12.5l1.5-1.5 1.5 1.5" stroke="white" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Scan Handwriting
+      </button>
+    </div>
+
+    <!-- Image preview bar -->
+    <div id="image-preview-bar">
+      <img id="preview-thumb" src="" alt="" />
+      <div class="preview-info">
+        <strong id="preview-filename">image.jpg</strong><br/>
+        Handwritten code scanned
+      </div>
+      <div class="img-remove-btn" onclick="clearImage()" title="Remove image">✕</div>
+    </div>
+
+    <!-- Editor -->
+    <div id="editor-wrapper">
+      <div id="line-numbers"></div>
+      <textarea id="code-editor" spellcheck="false" autocorrect="off" autocapitalize="off"
+        placeholder="// Select a problem to start coding..."
+        oninput="onEditorInput()" onkeydown="handleTab(event)" onscroll="syncScroll()"></textarea>
+
+      <!-- Upload overlay -->
+      <div id="upload-overlay">
+        <div id="upload-drop-zone"
+          ondragover="event.preventDefault(); this.classList.add('drag-over')"
+          ondragleave="this.classList.remove('drag-over')"
+          ondrop="handleDrop(event)"
+          onclick="document.getElementById('file-input').click()">
+          <div class="drop-icon">📸</div>
+          <h3>Upload Handwritten Code</h3>
+          <p>Drag & drop an image here, or<br/><span class="browse-link">browse to select a file</span></p>
+          <p style="margin-top:8px; font-size:11px;">Supports PNG, JPG, WEBP</p>
+        </div>
+        <button class="overlay-close" onclick="closeUploadOverlay()">
+          <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Cancel
+        </button>
+        <input type="file" id="file-input" accept="image/*" onchange="handleFileSelect(event)" />
+      </div>
+
+      <!-- Processing overlay -->
+      <div id="processing-overlay">
+        <div class="spinner"></div>
+        <div class="proc-text">Recognizing handwritten code…</div>
+        <div class="proc-sub">Analyzing image structure and characters</div>
+      </div>
+    </div>
+
+    <!-- Console -->
+    <div id="console-panel">
+      <div class="console-header">
+        <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="12" height="12" rx="2" stroke="#5c6680" stroke-width="1.2"/><path d="M4 5l2.5 2L4 9M8 9h2" stroke="#5c6680" stroke-width="1.2" stroke-linecap="round"/></svg>
+        <span>Console</span>
+      </div>
+      <div id="console-output">
+        <span class="out-info">// Output will appear here after running your code</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast container -->
+<div id="toast-container"></div>
+
+<script>
+// ── State ────────────────────────────────────────────────────────────────────
+let allQuestions = [];
+let currentQuestion = null;
+let currentFilter = 'all';
+let currentLang = 'python';
+
+// ── Init ─────────────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadQuestions();
+  updateLineNumbers();
+  initResizer();
+});
+
+async function loadQuestions() {
+  try {
+    const res = await fetch('/api/questions');
+    allQuestions = await res.json();
+    renderProblemList(allQuestions);
+    // Auto-select first
+    if (allQuestions.length) selectQuestion(allQuestions[0].id);
+  } catch(e) {
+    showToast('Failed to load problems', 'error');
+  }
+}
+
+// ── Problem List ─────────────────────────────────────────────────────────────
+function renderProblemList(questions) {
+  const container = document.getElementById('problem-list-scroll');
+  container.innerHTML = '';
+  questions.forEach(q => {
+    const el = document.createElement('div');
+    el.className = 'problem-item' + (currentQuestion?.id === q.id ? ' active' : '');
+    el.dataset.id = q.id;
+    el.innerHTML = `
+      <span class="problem-num">${String(q.id).padStart(2,'0')}</span>
+      <span class="problem-title">${q.title}</span>
+      <span class="difficulty-badge ${q.difficulty}">${q.difficulty}</span>
+    `;
+    el.onclick = () => selectQuestion(q.id);
+    container.appendChild(el);
+  });
+}
+
+function setFilter(filter) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => {
+    c.className = 'filter-chip';
+  });
+  const chipEl = document.getElementById(`chip-${filter}`);
+  if (chipEl) {
+    if (filter === 'all') chipEl.style.cssText = 'border-color: var(--brand); color: var(--brand-light); background: var(--brand-glow);';
+    else chipEl.className = `filter-chip active-${filter}`;
+  }
+  filterProblems();
+}
+
+function filterProblems() {
+  const query = document.getElementById('search-input').value.toLowerCase();
+  const filtered = allQuestions.filter(q => {
+    const matchDiff = currentFilter === 'all' || q.difficulty === currentFilter;
+    const matchSearch = !query || q.title.toLowerCase().includes(query) || q.tags.some(t => t.toLowerCase().includes(query));
+    return matchDiff && matchSearch;
+  });
+  renderProblemList(filtered);
+}
+
+async function selectQuestion(id) {
+  try {
+    const res = await fetch(`/api/questions/${id}`);
+    currentQuestion = await res.json();
+    renderQuestion(currentQuestion);
+    // Update active state
+    document.querySelectorAll('.problem-item').forEach(el => {
+      el.classList.toggle('active', parseInt(el.dataset.id) === id);
+    });
+    // Set starter code
+    const starter = currentQuestion.starter?.[currentLang] || '';
+    document.getElementById('code-editor').value = starter;
+    updateLineNumbers();
+    clearConsole();
+    clearImage();
+  } catch(e) {
+    showToast('Failed to load problem', 'error');
+  }
+}
+
+function renderQuestion(q) {
+  document.getElementById('empty-state').style.display = 'none';
+  const display = document.getElementById('question-display');
+  display.style.display = 'block';
+
+  const tagsHtml = q.tags.map(t => `<span class="meta-tag">${t}</span>`).join('');
+
+  const examplesHtml = q.examples.map((ex, i) => `
+    <div class="example-block">
+      <div class="ex-label">Example ${i+1}</div>
+      <pre><span class="ex-key">Input:</span>  ${escapeHtml(ex.input)}\n<span class="ex-key">Output:</span> ${escapeHtml(ex.output)}${ex.explanation ? `\n<span class="ex-key">Explanation:</span> ${escapeHtml(ex.explanation)}` : ''}</pre>
+    </div>
+  `).join('');
+
+  const constraintsHtml = q.constraints.map(c => `<li>${c}</li>`).join('');
+
+  display.innerHTML = `
+    <div class="reveal">
+      <h2 class="q-title">${q.id}. ${escapeHtml(q.title)}</h2>
+      <div class="meta-row">
+        <span class="meta-difficulty ${q.difficulty}">${q.difficulty}</span>
+        ${tagsHtml}
+        <span class="meta-acceptance">✓ ${q.acceptance}</span>
+      </div>
+      <div class="description">${q.description}</div>
+      ${examplesHtml}
+      <div class="constraints-section">
+        <h4>Constraints</h4>
+        <ul>${constraintsHtml}</ul>
+      </div>
+    </div>
+  `;
+}
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str.replace(/&(?!amp;|lt;|gt;|quot;|#)/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── Language ──────────────────────────────────────────────────────────────────
+function changeLang() {
+  currentLang = document.getElementById('lang-select').value;
+  if (currentQuestion) {
+    const starter = currentQuestion.starter?.[currentLang] || '';
+    document.getElementById('code-editor').value = starter;
+    updateLineNumbers();
+  }
+}
+
+// ── Editor ────────────────────────────────────────────────────────────────────
+function handleTab(e) {
+  if (e.key === 'Tab') {
+    e.preventDefault();
+    const ta = e.target;
+    const start = ta.selectionStart;
+    const end = ta.selectionEnd;
+    ta.value = ta.value.substring(0, start) + '    ' + ta.value.substring(end);
+    ta.selectionStart = ta.selectionEnd = start + 4;
+    updateLineNumbers();
+  }
+}
+
+function onEditorInput() {
+  updateLineNumbers();
+}
+
+function updateLineNumbers() {
+  const ta = document.getElementById('code-editor');
+  const ln = document.getElementById('line-numbers');
+  const lines = ta.value.split('\n').length;
+  let html = '';
+  for (let i = 1; i <= Math.max(lines, 20); i++) {
+    html += `<span>${i}</span>`;
+  }
+  ln.innerHTML = html;
+}
+
+function syncScroll() {
+  const ta = document.getElementById('code-editor');
+  const ln = document.getElementById('line-numbers');
+  ln.scrollTop = ta.scrollTop;
+}
+
+function clearEditor() {
+  document.getElementById('code-editor').value = '';
+  updateLineNumbers();
+  clearConsole();
+}
+
+// ── Upload Flow ───────────────────────────────────────────────────────────────
+function openUploadOverlay() {
+  document.getElementById('upload-overlay').classList.add('visible');
+}
+
+function closeUploadOverlay() {
+  document.getElementById('upload-overlay').classList.remove('visible');
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('upload-drop-zone').classList.remove('drag-over');
+  const file = e.dataTransfer.files[0];
+  if (file && file.type.startsWith('image/')) {
+    processImageFile(file);
+  } else {
+    showToast('Please upload an image file (PNG, JPG, WEBP)', 'error');
+  }
+}
+
+function handleFileSelect(e) {
+  const file = e.target.files[0];
+  if (file) processImageFile(file);
+  e.target.value = '';
+}
+
+async function processImageFile(file) {
+  closeUploadOverlay();
+
+  // Show preview
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    document.getElementById('preview-thumb').src = e.target.result;
+    document.getElementById('preview-filename').textContent = file.name;
+    document.getElementById('image-preview-bar').classList.add('visible');
+  };
+  reader.readAsDataURL(file);
+
+  // Show processing
+  document.getElementById('processing-overlay').classList.add('visible');
+
+  try {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const res = await fetch('/api/extract-code', {
+      method: 'POST',
+      body: formData
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: 'Processing failed' }));
+      throw new Error(err.detail || 'Processing failed');
+    }
+
+    const data = await res.json();
+    const code = data.code;
+
+    if (!code || !code.trim()) {
+      showToast('No code detected in the image. Please try a clearer photo.', 'error');
+    } else {
+      const editor = document.getElementById('code-editor');
+      editor.value = code;
+      updateLineNumbers();
+      showToast('Handwritten code successfully extracted!', 'success');
+      logConsole('✓ Code extracted from handwritten image.', 'success');
+    }
+  } catch(e) {
+    showToast(e.message || 'Could not process image', 'error');
+  } finally {
+    document.getElementById('processing-overlay').classList.remove('visible');
+  }
+}
+
+function clearImage() {
+  document.getElementById('image-preview-bar').classList.remove('visible');
+  document.getElementById('preview-thumb').src = '';
+}
+
+// ── Run / Submit ───────────────────────────────────────────────────────────────
+function handleRun() {
+  const code = document.getElementById('code-editor').value;
+  if (!code.trim()) { showToast('Write some code first!', 'info'); return; }
+  clearConsole();
+  logConsole('Running code...', 'info');
+  setTimeout(() => {
+    logConsole('> Code execution requires a backend runtime.', 'info');
+    logConsole('> Connect a judge service to enable live testing.', 'info');
+  }, 400);
+}
+
+function handleSubmit() {
+  const code = document.getElementById('code-editor').value;
+  if (!code.trim()) { showToast('Write some code first!', 'info'); return; }
+  clearConsole();
+  logConsole('Submitting...', 'info');
+  setTimeout(() => {
+    logConsole('> Submission received.', 'success');
+    logConsole('> Connect a judge service to enable auto-grading.', 'info');
+    showToast('Submission recorded!', 'success');
+  }, 600);
+}
+
+// ── Console ───────────────────────────────────────────────────────────────────
+function logConsole(msg, type = '') {
+  const out = document.getElementById('console-output');
+  const span = document.createElement('div');
+  span.className = type ? `out-${type}` : '';
+  span.textContent = msg;
+  out.appendChild(span);
+  out.scrollTop = out.scrollHeight;
+}
+
+function clearConsole() {
+  document.getElementById('console-output').innerHTML = '';
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(message, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const icons = { success: '✓', error: '✕', info: 'ℹ' };
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  toast.innerHTML = `<span>${icons[type] || '·'}</span><span>${message}</span>`;
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.animation = 'toastIn .2s ease reverse forwards';
+    setTimeout(() => toast.remove(), 200);
+  }, 3500);
+}
+
+// ── Resizer ────────────────────────────────────────────────────────────────────
+function initResizer() {
+  const resizer = document.getElementById('resizer');
+  const center = document.getElementById('center-panel');
+  const editor = document.getElementById('editor-panel');
+  let startX, startCenterW, startEditorW;
+
+  resizer.addEventListener('mousedown', (e) => {
+    startX = e.clientX;
+    startCenterW = center.offsetWidth;
+    startEditorW = editor.offsetWidth;
+    resizer.classList.add('dragging');
+    document.body.style.userSelect = 'none';
+    document.body.style.cursor = 'col-resize';
+
+    const onMove = (e) => {
+      const dx = e.clientX - startX;
+      const newCenter = startCenterW + dx;
+      const newEditor = startEditorW - dx;
+      if (newCenter > 200 && newEditor > 280) {
+        center.style.flex = 'none';
+        center.style.width = newCenter + 'px';
+        editor.style.flex = 'none';
+        editor.style.width = newEditor + 'px';
+      }
+    };
+
+    const onUp = () => {
+      resizer.classList.remove('dragging');
+      document.body.style.userSelect = '';
+      document.body.style.cursor = '';
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+    };
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+}
+</script>
+
+</body>
+</html>
