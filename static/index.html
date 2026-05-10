@@ -578,7 +578,7 @@
       resize: none;
       tab-size: 4;
       caret-color: var(--brand-light);
-      spellcheck: false;
+      
     }
 
     #code-editor::selection { background: rgba(91,95,239,.2); }
@@ -856,9 +856,7 @@
     Vision-Code
   </a>
   <div class="nav-tabs">
-    <button class="nav-tab" onclick="location.href='/'">Dashboard</button>
     <button class="nav-tab active">Practice</button>
-    <button class="nav-tab">Leaderboard</button>
   </div>
   <div class="spacer"></div>
   <button class="run-btn" onclick="handleRun()">
@@ -896,8 +894,8 @@
   <div id="center-panel">
     <div class="panel-tabs">
       <div class="panel-tab active">Description</div>
-      <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Solutions</div>
-      <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Submissions</div>
+      <!-- <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Solutions</div>
+      <div class="panel-tab" style="color: var(--text-3); pointer-events: none; opacity:.5;">Submissions</div> -->
     </div>
     <div id="problem-content">
       <div id="empty-state">
@@ -918,8 +916,6 @@
         <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><path d="M4 4l-3 4 3 4M12 4l3 4-3 4M9 2l-2 12" stroke="#8b96b0" stroke-width="1.5" stroke-linecap="round"/></svg>
         <select id="lang-select" onchange="changeLang()">
           <option value="python">Python</option>
-          <option value="javascript">JavaScript</option>
-          <option value="java">Java</option>
           <option value="cpp">C++</option>
         </select>
         <span class="arrow">▾</span>
